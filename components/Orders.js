@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { deleteOrder } from '../api/orderData';
 
-const Orders = ({ orders, onUpdate }) => {
+const Orders = ({ orders }) => {
   const deleteMyOrder = (id) => {
     if (window.confirm('Delete This Post?')) {
-      deleteOrder(id).then(() => onUpdate());
+      deleteOrder(id).then(() => window.location.reload());
     }
   };
 
@@ -58,11 +58,6 @@ const postShape = PropTypes.shape({
 
 Orders.propTypes = {
   orders: PropTypes.arrayOf(postShape).isRequired,
-  onUpdate: PropTypes.func,
-};
-
-Orders.defaultProps = {
-  onUpdate: () => {},
 };
 
 export default Orders;

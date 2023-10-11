@@ -54,8 +54,48 @@ const deleteOrder = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const createOrder = (payload) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/api/orders`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(async (res) => {
+      let data;
+      if (res.ok) {
+        data = await res.json();
+        resolve(data);
+      }
+    })
+    .catch(reject);
+});
+
+const updateOrder = (payload) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/api/orders/${payload.Id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(async (res) => {
+      let data;
+      if (res.ok) {
+        data = await res.json();
+        resolve(data);
+      }
+    })
+    .catch(reject);
+});
+
 export {
   getAllOrders,
   getSingleOrder,
   deleteOrder,
+  createOrder,
+  updateOrder,
 };
