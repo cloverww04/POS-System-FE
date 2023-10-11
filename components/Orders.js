@@ -26,16 +26,16 @@ const Orders = ({ orders, onUpdate }) => {
 
               <div className="d-flex justify-content-between">
                 <Link passHref href={`/orders/${order.id}`}>
-                  <Button variant="primary" className="mt-3 btn-sm" style={{ height: '32px' }}>
+                  <Button variant="info" className="mt-3 btn-sm" style={{ height: '32px' }}>
                     View
                   </Button>
                 </Link>
                 <Link passHref href={`/edit/${order.id}`}>
-                  <Button variant="primary" className="mt-3 btn-sm" style={{ height: '32px' }}>
+                  <Button variant="primary" className="mt-3 btn-sm" style={{ height: '32px', backgroundColor: 'purple', borderColor: 'purple' }}>
                     Edit
                   </Button>
                 </Link>
-                <Button variant="secondary" className="mt-3 btn-sm" style={{ height: '32px' }} onClick={() => deleteMyOrder(order.id)}>
+                <Button variant="danger" className="mt-3 btn-sm" style={{ height: '32px' }} onClick={() => deleteMyOrder(order.id)}>
                   Delete
                 </Button>
 

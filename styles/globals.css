@@ -18,10 +18,14 @@ a {
 }
 
 body {
-  background-color: #88effd;
+  background-color: black;
 }
 
 .max-width-card {
   max-width: 800px;
   margin: 40px auto;
 }
+
+
+
+
