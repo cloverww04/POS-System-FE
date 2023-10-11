@@ -1,8 +1,8 @@
 {
-  "name": "next-firebase-starter",
+  "name": "wangazonfe",
   "private": true,
   "version": "1.0.0",
-  "author": "Trinity Christiana",
+  "author": "Nathan",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -28,6 +28,8 @@
     "react-dom": "17.0.2"
   },
   "devDependencies": {
+    "@types/react": "^18.2.28",
+    "@types/react-dom": "^18.2.13",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-next": "11.1.2",
