@@ -41,7 +41,29 @@ const addTypeToOrder = (orderId, typeId) => new Promise((resolve, reject) => {
     });
 });
 
+const updateTypeToOrder = (orderId, typeId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/api/order/ordertype/${orderId}/${typeId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ orderId, typeId }),
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const data = await res.json();
+        resolve(data);
+      } else {
+        reject(new Error(`Failed to add item to order. Status: ${res.status}`));
+      }
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
+
 export {
   getAllTypes,
   addTypeToOrder,
+  updateTypeToOrder,
 };

@@ -4,11 +4,10 @@ import { FloatingLabel, Button, Form } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import { createOrder, updateOrder } from '../api/orderData';
 import { useAuth } from '../utils/context/authContext';
-import { getAllTypes, addTypeToOrder } from '../api/orderTypeData';
+import { getAllTypes, addTypeToOrder, updateTypeToOrder } from '../api/orderTypeData';
 import { checkUser } from '../utils/auth';
 
 const initialState = {
-  // Id: 0,
   CustomerFirstName: '',
   CustomerLastName: '',
   CustomerEmail: '',
@@ -23,6 +22,8 @@ export default function OrderForm({ obj }) {
   const [type, setType] = useState([]);
   const [selectedTypeId, setSelectedTypeId] = useState('');
 
+  const selectedOrder = obj;
+
   useEffect(() => {
     getAllTypes()
       .then((data) => {
@@ -33,10 +34,18 @@ export default function OrderForm({ obj }) {
       });
     checkUser(user.id).then(setUser);
 
-    if (obj.Id) {
-      setFormData(obj);
+    if (obj.id) {
+      const fullName = selectedOrder.orderName.split(' ');
+      const updatedFormData = {
+
+        CustomerFirstName: fullName[0],
+        CustomerLastName: fullName.slice(1).join(' '),
+        CustomerEmail: selectedOrder.emailAddress,
+        CustomerPhone: selectedOrder.phoneNumber,
+      };
+      setFormData(updatedFormData);
     }
-  }, [user.id, obj]);
+  }, [user.id, obj, selectedOrder]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,17 +57,25 @@ export default function OrderForm({ obj }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (obj.Id && selectedTypeId) {
-      const payload = { ...formData, Id: obj.Id };
+    if (obj.id && selectedTypeId) {
+      const payload = {
+        ...formData, Id: obj.id, OrderPlaced: new Date(), OrderType: selectedTypeId,
+      };
       updateOrder(payload)
-        .then(() => router.push('../viewOrders'));
+        .then((response) => updateTypeToOrder(response.id, selectedTypeId))
+        .then(() => {
+          router.push('../viewOrders');
+        })
+        .catch((error) => {
+          console.error('API Error:', error);
+        });
     } else {
       const payload = {
         ...formData,
         OrderPlaced: new Date(),
         EmployeeId: user.id,
         RevenueId: user.id,
-        Id: obj.Id,
+        Id: obj.id,
       };
       createOrder(payload)
         .then((response) => {
@@ -78,7 +95,6 @@ export default function OrderForm({ obj }) {
     <>
       <Form onSubmit={handleSubmit}>
 
-        {/* IMAGE INPUT AS STRING */}
         <FloatingLabel controlId="floatingInput1" label="Enter first name" className="mb-3">
           <Form.Control
             type="text"
@@ -126,10 +142,10 @@ export default function OrderForm({ obj }) {
         <Form.Group className="mb-3" controlId="formGridLevel">
           <Form.Select
             aria-label="OrderType"
-            name="typeId"
+            name="selectedTypeId"
             onChange={(e) => {
               handleChange(e);
-              setSelectedTypeId(e.target.value); // Update selectedTypeId
+              setSelectedTypeId(e.target.value);
             }}
             className="mb-3"
             value={selectedTypeId}
@@ -145,7 +161,7 @@ export default function OrderForm({ obj }) {
 
         {/* SUBMIT BUTTON  */}
 
-        <Button type="submit" className="btn-secondary mt-2">{obj.Id ? 'Update' : 'Create'} Order</Button>
+        <Button type="submit" className="btn-secondary mt-2">{obj.id ? 'Update' : 'Create'} Order</Button>
       </Form>
     </>
   );
@@ -153,7 +169,7 @@ export default function OrderForm({ obj }) {
 
 OrderForm.propTypes = {
   obj: PropTypes.shape({
-    Id: PropTypes.number,
+    id: PropTypes.number,
     CustomerFirstName: PropTypes.string,
     CustomerLastName: PropTypes.string,
     CustomerPhone: PropTypes.string,

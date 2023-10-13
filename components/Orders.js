@@ -30,7 +30,7 @@ const Orders = ({ orders }) => {
                     View
                   </Button>
                 </Link>
-                <Link passHref href={`/edit/${order.id}`}>
+                <Link passHref href={`/orders/edit/${order.id}`}>
                   <Button variant="primary" className="mt-3 btn-sm" style={{ height: '32px', backgroundColor: 'purple', borderColor: 'purple' }}>
                     Edit
                   </Button>
