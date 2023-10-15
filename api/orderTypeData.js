@@ -33,7 +33,7 @@ const addTypeToOrder = (orderId, typeId) => new Promise((resolve, reject) => {
         const data = await res.json();
         resolve(data);
       } else {
-        reject(new Error(`Failed to add item to order. Status: ${res.status}`));
+        reject(new Error(`Failed to type to order. Status: ${res.status}`));
       }
     })
     .catch((error) => {
@@ -54,7 +54,7 @@ const updateTypeToOrder = (orderId, typeId) => new Promise((resolve, reject) => 
         const data = await res.json();
         resolve(data);
       } else {
-        reject(new Error(`Failed to add item to order. Status: ${res.status}`));
+        reject(new Error(`Failed to update order type to order. Status: ${res.status}`));
       }
     })
     .catch((error) => {

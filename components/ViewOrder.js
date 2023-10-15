@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Card, ListGroup } from 'react-bootstrap';
 // import PropTypes from 'prop-types';
+import Link from 'next/link';
 import { getSingleOrder } from '../api/orderData';
 import { deleteItem } from '../api/menuData';
 
@@ -36,7 +37,11 @@ const ViewOrder = () => {
   return (
     <Card className="max-width-card">
       <Card.Body>
-        <h1>Total Amount: {orderData.totalOrderAmount}</h1>
+        <h1>Order Name: {orderData.orderName}</h1>
+        <h6>Order Status: {orderData.orderStatus}</h6>
+        <h6>Phne Number: {orderData.phoneNumber}</h6>
+        <h6>Email: {orderData.emailAddress}</h6>
+        <h6>Order Type: {orderData.orderType}</h6>
 
         <h3>Menu Items</h3>
         <ListGroup>
@@ -46,7 +51,12 @@ const ViewOrder = () => {
                 <h4>{menuItem.itemName}</h4>
                 <p>Price: {menuItem.price}</p>
                 <p>Quantity: {menuItem.quantity}</p>
-                <Button variant="info" style={{ marginRight: '10px' }}>Edit Item</Button>
+                {menuItem.comment !== null && (
+                <p>Comment: {menuItem.comment}</p>
+                )}
+                <Link passHref href={`/items/?orderId=${orderData.id}&menuItemId=${menuItem.id}`}>
+                  <Button variant="info" style={{ marginRight: '10px' }}>Edit Item</Button>
+                </Link>
                 <Button
                   variant="danger"
                   style={{ marginRight: '10px' }}
@@ -58,6 +68,7 @@ const ViewOrder = () => {
             </Card>
           ))}
         </ListGroup>
+        <h3>Total Amount: {orderData.totalOrderAmount}</h3>
         <div className="d-flex justify-content-center mt-3">
           <Button
             variant="success"
@@ -66,7 +77,7 @@ const ViewOrder = () => {
           >
             Add Item
           </Button>
-          <Button variant="primary" style={{ marginRight: '10px' }}>
+          <Button variant="primary" style={{ marginRight: '10px' }} onClick={() => router.push(`/paymentPage?orderId=${orderData.id}`)}>
             Go To Payment
           </Button>
         </div>
