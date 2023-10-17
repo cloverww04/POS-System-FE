@@ -8,7 +8,7 @@ function PaymentPage() {
 
   return (
     <div>
-      <PaymentForm orderId={orderId} />
+      <PaymentForm orderId={parseInt(orderId, 10)} />
     </div>
   );
 }

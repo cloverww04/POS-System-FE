@@ -68,7 +68,10 @@ const ViewOrder = () => {
             </Card>
           ))}
         </ListGroup>
+
         <h3>Total Amount: {orderData.totalOrderAmount}</h3>
+        <h4>Tip Amount: {orderData.tip}</h4>
+        <h4>Review: {orderData.review || 'Not Reviewed'}</h4>
         <div className="d-flex justify-content-center mt-3">
           <Button
             variant="success"

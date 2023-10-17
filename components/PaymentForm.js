@@ -3,12 +3,14 @@ import { Form, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { getPayments, addPayment } from '../api/paymentData';
+import addReviewToOrder from '../api/reviewData';
 
 const PaymentForm = ({ orderId }) => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     Tip: 0,
     PaymentType: '',
+    Review: '',
   });
   const [paymentTypes, setPaymentTypes] = useState([]);
 
@@ -35,15 +37,27 @@ const PaymentForm = ({ orderId }) => {
     });
   };
 
+  const handleReviewChange = (e) => {
+    setFormData({
+      ...formData,
+      Review: e.target.value,
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
     addPayment(orderId, formData.PaymentType, formData.Tip)
       .then(() => {
-        router.push(`/orders/${orderId}`);
+        addReviewToOrder(orderId, formData.Review)
+          .then(() => {
+            router.push(`/orders/${orderId}`);
+          })
+          .catch((reviewError) => {
+            console.error('Error adding review:', reviewError);
+          });
       })
-      .catch((error) => {
-        console.error('Error adding payment:', error);
+      .catch((paymentError) => {
+        console.error('Error adding payment:', paymentError);
       });
   };
 
@@ -65,6 +79,11 @@ const PaymentForm = ({ orderId }) => {
       <Form.Group className="mb-3">
         <Form.Label style={{ color: 'white' }}>Tip Amount</Form.Label>
         <Form.Control type="number" name="Tip" value={formData.Tip} onChange={handleTipChange} />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label style={{ color: 'white' }}>Review</Form.Label>
+        <Form.Control as="textarea" name="Review" value={formData.Review} onChange={handleReviewChange} />
       </Form.Group>
 
       <Button type="submit" variant="secondary">

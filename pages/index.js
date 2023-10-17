@@ -1,7 +1,6 @@
 import { Button } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { signOut } from '../utils/auth';
 import { useAuth } from '../utils/context/authContext';
 import foodImage from '../images/food.png';
 
@@ -27,7 +26,7 @@ function Home() {
       <Button style={{ marginTop: '10px' }} variant="info" type="button" size="lg" className="copy-btn" onClick={() => router.push('/createOrder')}>
         Create an Order
       </Button>
-      <Button style={{ marginTop: '10px' }} variant="warning" type="button" size="lg" className="copy-btn" onClick={signOut}>
+      <Button style={{ marginTop: '10px' }} variant="warning" type="button" size="lg" className="copy-btn" onClick={() => router.push('/revenuePage')}>
         View Revenue
       </Button>
 
