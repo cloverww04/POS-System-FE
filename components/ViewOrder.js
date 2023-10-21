@@ -39,7 +39,7 @@ const ViewOrder = () => {
       <Card.Body>
         <h1>Order Name: {orderData.orderName}</h1>
         <h6>Order Status: {orderData.orderStatus}</h6>
-        <h6>Phne Number: {orderData.phoneNumber}</h6>
+        <h6>Phone Number: {orderData.phoneNumber}</h6>
         <h6>Email: {orderData.emailAddress}</h6>
         <h6>Order Type: {orderData.orderType}</h6>
 
@@ -49,7 +49,7 @@ const ViewOrder = () => {
             <Card key={menuItem.itemName}>
               <ListGroup.Item>
                 <h4>{menuItem.itemName}</h4>
-                <p>Price: {menuItem.price}</p>
+                <p>Price: ${menuItem.price}</p>
                 <p>Quantity: {menuItem.quantity}</p>
                 {menuItem.comment !== null && (
                 <p>Comment: {menuItem.comment}</p>
